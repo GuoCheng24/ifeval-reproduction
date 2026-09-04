@@ -1,0 +1,41 @@
+# Verbatim IFEval claim lines from the model card ($HF_HOME/hub/models--InternScience--Agents-A1-4B/snapshots/945c40a4aa6f534d434a353207b8d42ecf7a5293/README.md), captured 2026-09-04
+
+## README.md line 69:
+We release the dense model Agents-A1-4B with only 4B parameters, yet it delivers impressive performance across long-horizon search, engineering & research, instruction following, and general/scientific agentic tasks. It significantly outperforms similarly-sized models on BrowseComp (66.8), XBench-DS-2510 (90.0), GAIA (95.1), FrontierScience-Research (33.3), and IFEval (94.8), with some scores approaching or even surpassing larger MoE models like Nex-N2-mini and Qwen3.6. Compared to the flagship 35B Agents-A1, the 4B variant achieves strong competitiveness with a fraction of the parameters, demonstrating the series' excellent balance between efficiency and performance, and continuously narrowing the gap between small models and frontier systems.
+
+## README.md table header (lines 86-93) and IFEval row (lines 213-220):
+</tr>
+
+<tr>
+<th align="center">Qwen3.5-4B</th>
+<th align="center">Agents-A1-4B</th>
+<th align="center">Qwen3.5</th>
+<th align="center">Qwen3.6</th>
+<th align="center">Nex-N2-mini</th>
+...
+<tr>
+<td align="left">IFEval</td>
+<td align="center">89.8</td>
+<td align="center">🥇 94.8</td>
+<td align="center">91.9</td>
+<td align="center">91.3</td>
+<td align="center">88.4</td>
+<td align="center">🥇 94.8</td>
+
+## README.md lines 352-361 (recommended sampling parameters):
+### Recommended Sampling Parameters & System Prompt
+
+For the best generation quality and more stable multi-turn behavior, we recommend using the following sampling parameters:
+
+* `temperature`: 0.85
+* `top_p`: 0.95
+* `top_k`: 20
+* `min_p`: 0.0
+* `presence_penalty`: 1.1
+* `repetition_penalty`: 1.0
+
+## README.md line 393-396 (evaluation protocol note):
+For detailed evaluation scripts, task definitions, metrics, and reproduction instructions, please refer to the evaluation codebase.
+
+## Citation
+

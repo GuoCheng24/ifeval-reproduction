@@ -1,0 +1,49 @@
+{
+ "n_prompts_scored": 541,
+ "n_prompts_in_input_data": 541,
+ "prompt_level_strict_acc": 0.7689463955637708,
+ "prompt_level_loose_acc": 0.8040665434380776,
+ "instruction_level_strict_acc": 0.8357314148681055,
+ "instruction_level_loose_acc": 0.8621103117505995,
+ "strict": {
+  "prompt_level_acc": 0.7689463955637708,
+  "instruction_level_acc": 0.8357314148681055,
+  "n_prompts": 541,
+  "n_prompts_correct": 416,
+  "n_instructions": 834,
+  "n_instructions_correct": 697,
+  "per_category_instruction_acc": {
+   "change_case": 0.7752808988764045,
+   "combination": 0.8615384615384616,
+   "detectable_content": 0.8867924528301887,
+   "detectable_format": 0.9426751592356688,
+   "keywords": 0.7668711656441718,
+   "language": 0.967741935483871,
+   "length_constraints": 0.7482517482517482,
+   "punctuation": 0.7878787878787878,
+   "startend": 0.9402985074626866
+  }
+ },
+ "loose": {
+  "prompt_level_acc": 0.8040665434380776,
+  "instruction_level_acc": 0.8621103117505995,
+  "n_prompts": 541,
+  "n_prompts_correct": 435,
+  "n_instructions": 834,
+  "n_instructions_correct": 719,
+  "per_category_instruction_acc": {
+   "change_case": 0.7865168539325843,
+   "combination": 0.9538461538461539,
+   "detectable_content": 0.8867924528301887,
+   "detectable_format": 0.9490445859872612,
+   "keywords": 0.7975460122699386,
+   "language": 0.967741935483871,
+   "length_constraints": 0.7832167832167832,
+   "punctuation": 0.8333333333333334,
+   "startend": 0.9552238805970149
+  }
+ },
+ "responses_file": "<scratch>",
+ "input_data": "<scratch>",
+ "scorer": "google-research/instruction_following_eval (vendored, unmodified) via evaluation_main"
+}
