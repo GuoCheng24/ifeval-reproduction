@@ -1,0 +1,49 @@
+{
+ "n_prompts_scored": 32,
+ "n_prompts_in_input_data": 32,
+ "prompt_level_strict_acc": 0.875,
+ "prompt_level_loose_acc": 0.90625,
+ "instruction_level_strict_acc": 0.9,
+ "instruction_level_loose_acc": 0.925,
+ "strict": {
+  "prompt_level_acc": 0.875,
+  "instruction_level_acc": 0.9,
+  "n_prompts": 32,
+  "n_prompts_correct": 28,
+  "n_instructions": 40,
+  "n_instructions_correct": 36,
+  "per_category_instruction_acc": {
+   "change_case": 0.6666666666666666,
+   "combination": 1.0,
+   "detectable_content": 1.0,
+   "detectable_format": 0.8333333333333334,
+   "keywords": 1.0,
+   "language": 0.6666666666666666,
+   "length_constraints": 0.8888888888888888,
+   "punctuation": 1.0,
+   "startend": 1.0
+  }
+ },
+ "loose": {
+  "prompt_level_acc": 0.90625,
+  "instruction_level_acc": 0.925,
+  "n_prompts": 32,
+  "n_prompts_correct": 29,
+  "n_instructions": 40,
+  "n_instructions_correct": 37,
+  "per_category_instruction_acc": {
+   "change_case": 0.6666666666666666,
+   "combination": 1.0,
+   "detectable_content": 1.0,
+   "detectable_format": 0.8333333333333334,
+   "keywords": 1.0,
+   "language": 1.0,
+   "length_constraints": 0.8888888888888888,
+   "punctuation": 1.0,
+   "startend": 1.0
+  }
+ },
+ "responses_file": "<scratch>",
+ "input_data": "<scratch>",
+ "scorer": "google-research/instruction_following_eval (vendored, unmodified) via evaluation_main"
+}

@@ -1,0 +1,44 @@
+name: check
+
+# The scorer is vendored from google-research and must keep working; the
+# pre-registration hashes must keep matching, since the whole point of the
+# chain is that it cannot be edited after the fact.
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  prereg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: the pre-registration files still hash to their recorded values
+        run: |
+          fail=0
+          for f in prereg/*.sha256; do
+            base="prereg/$(basename "$f" .sha256)"
+            [ -f "$base.md" ] || base="prereg/$(basename "$f" .sha256 | sed 's/^prereg_/PREREG_/')"
+            [ -f "$base.md" ] || { echo "no manuscript for $f"; fail=1; continue; }
+            want=$(tr -d '[:space:]' < "$f" | cut -c1-64)
+            got=$(sha256sum "$base.md" | cut -c1-64)
+            if [ "$want" = "$got" ]; then echo "ok   $base.md"
+            else echo "FAIL $base.md wanted $want got $got"; fail=1; fi
+          done
+          exit $fail
+
+  scorer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "nltk==3.8.1" absl-py langdetect immutabledict
+      - name: the vendored scorer imports and its controls behave
+        run: |
+          python - <<'PY'
+          import sys, pathlib
+          sys.path.insert(0, str(pathlib.Path("ifeval_scorer").resolve()))
+          import instruction_following_eval.instructions_registry as r
+          n = len(r.INSTRUCTION_DICT)
+          print(f"{n} instruction types registered")
+          assert n > 20, "the vendored registry looks truncated"
+          PY

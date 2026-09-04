@@ -1,0 +1,7 @@
+  echo-pass (echo_prompt): ['keywords:existence']
+  echo-pass (echo_prompt): ['length_constraints:number_paragraphs', 'detectable_content:postscript']
+  echo-pass (echo_prompt): ['length_constraints:number_words']
+strict: echo_prompt: prompt-level 2/10  instruction-level 4/15
+strict: empty: prompt-level 0/10  instruction-level 0/16
+loose: echo_prompt: prompt-level 2/10  instruction-level 4/15
+loose: empty: prompt-level 0/10  instruction-level 0/16
