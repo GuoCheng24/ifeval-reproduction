@@ -1,5 +1,7 @@
 # Reproducing IFEval on a 4B agent model, on one shared GPU
 
+[![test](https://github.com/GuoCheng24/ifeval-reproduction/actions/workflows/check.yml/badge.svg)](https://github.com/GuoCheng24/ifeval-reproduction/actions/workflows/check.yml)
+
 A first-hand reproduction of the IFEval score published for
 [InternScience/Agents-A1-4B](https://huggingface.co/InternScience/Agents-A1-4B), run on a single
 RTX 4090 shared with other users. Three arms, a pre-registration written before any score existed,
