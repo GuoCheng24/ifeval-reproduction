@@ -32,6 +32,12 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install "nltk==3.8.1" absl-py langdetect immutabledict
+      # The README quotes five scores. They live in results/metrics_*.json, and a
+      # capped run's percentage has to carry its own denominator: 87.5% once sat
+      # beside "a subsample of 80 prompts" when it was 28 of 32.
+      - name: every score quoted in the README matches the committed metrics
+        run: python scripts/check_readme_numbers.py
+
       - name: the vendored scorer imports and its controls behave
         run: |
           python - <<'PY'

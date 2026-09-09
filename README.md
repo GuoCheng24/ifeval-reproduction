@@ -25,8 +25,8 @@ sampling at T=0.85 with thinking on. That difference is the whole reason for arm
 ## The part worth reading: an analysis that killed my own result
 
 Arm 3 re-ran a random subsample of 80 prompts under the card's sampling settings with a 16384-token
-thinking budget, and scored **87.5%** against arm 1's 76.9% — an apparent 11-point gain from
-thinking mode.
+thinking budget. A cost cap stopped it after **32** of those 80, so its **87.5%** is 28 of 32
+prompts, not 80 — against arm 1's 76.9% over all 541, an apparent 11-point gain from thinking mode.
 
 It is not a gain. **Arm 1 scores 87.5% on those same 32 prompts.** The subsample was simply easier.
 Paired by prompt, McNemar exact: b=2, c=2, p=1.000; excluding the four unclosed responses, b=0, c=2,
@@ -37,8 +37,8 @@ precisely because an independent proportion at n≈30 has a confidence interval 
 both 76.9 and 94.8 and therefore settles nothing. Comparing the two arms on the same prompts has the
 power that comparing two independent estimates does not.
 
-By the pre-registered stopping rule, 32 pairs is under the 50 required, so the verdict is
-**underpowered** — not "no difference".
+By the pre-registered stopping rule, those 32 completed pairs are under the 50 required, so the
+verdict is **underpowered** — not "no difference".
 
 ## A finding that is useful on its own
 
