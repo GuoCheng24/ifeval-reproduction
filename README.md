@@ -44,7 +44,12 @@ verdict is **underpowered** — not "no difference".
 
 At a **4096-token** budget the model fails to close its reasoning block on **58%** of IFEval prompts.
 Raising the budget to **16384** brings closure to **88%**. Median tokens among responses that do
-close: 2136 and 4140.
+close: 2136 and 4539.
+
+Those two medians are the one class of number here that this repository cannot re-derive: they come
+from the generation files, which `.gitignore` keeps out (`generations*.jsonl`, `scored*/`). They are
+quoted from `results/RESULTS_run2.md`, which is what the runs wrote, and `scripts/check_readme_numbers.py`
+fails if the page and that file ever disagree.
 
 Serving this model with a 4k output budget truncates most answers mid-reasoning. Arm 2's low score
 largely measures that truncation rather than instruction-following, which is why it is reported as a
@@ -73,8 +78,14 @@ responses), a single sampling seed, batch composition, and the serving stack —
 ## Pre-registration
 
 Three files, each hash-linked to the previous, each written before the scores it governs existed:
-`prereg/`. The analysis script recomputes all three hashes and refuses to run if any changed; I
-verified that guard by tampering with a file and watching it abort.
+`prereg/`. `scripts/analyze_run2b.py` recomputes all three hashes and refuses to run if any changed.
+CI now exercises that in both directions on every push -- unmodified it must clear the hashes, and with
+a file tampered with it must abort on the hash -- rather than resting on my having watched it once.
+
+The analysis itself cannot be re-run from a clone: it reads the generations and the scorer output, and
+`.gitignore` keeps those out (`generations*.jsonl`, `scored*/`), so the script says so and stops. What
+it produced is in `results/RESULTS_run2.md`, and `scripts/check_readme_numbers.py` fails if this page
+and that file ever disagree about it.
 
 The second amendment exists because the first design was wrong: at a 4096-token budget most
 responses never finished reasoning, so the measurement would have been of the budget rather than of

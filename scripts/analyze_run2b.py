@@ -8,12 +8,23 @@ Sensitivity: same paired test with unclosed-</think> prompts EXCLUDED.
 """
 import json, os, subprocess, sys, hashlib
 from math import comb
-HERE = os.path.dirname(os.path.abspath(__file__)); P = lambda *a: os.path.join(HERE, *a)
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+P = lambda *a: os.path.join(ROOT, *a)          # run artefacts, at the repository root
+PRE = lambda f: os.path.join(ROOT, "prereg", f)
 
 for f, pre in [("PREREG_run2.md", "a7b616ee0f881fff"), ("PREREG_run2b.md", "326455ea25c5dd7a"),
                ("PREREG_run2b_analysis.md", "db2b189ac606c473")]:
-    h = hashlib.sha256(open(P(f), "rb").read()).hexdigest()
+    with open(PRE(f), "rb") as fh:
+        h = hashlib.sha256(fh.read()).hexdigest()
     assert h.startswith(pre), f"{f} CHANGED: {h}"
+
+# The generations and the scorer output are deliberately not in the repository
+# (.gitignore: generations*.jsonl, scored*/) -- they are model output, and the
+# point of this repository is the protocol and the analysis, not a rehosted
+# copy of what the model said. Say so plainly rather than dying on an open().
+NEEDED = ["generations_run2b.jsonl",
+          os.path.join("scored", "eval_results_strict.jsonl"),
+          os.path.join("scored_run2b", "eval_results_strict.jsonl")]
 
 def clopper_pearson(k, n, alpha=0.05):
     """Exact binomial CI without scipy: invert the beta quantiles by bisection on the binomial tail."""
@@ -46,17 +57,27 @@ def mcnemar_exact(b, c):
     return min(1.0, 2*p)
 
 def main():
-    gens = [json.loads(l) for l in open(P("generations_run2b.jsonl")) if l.strip()]
+    missing = [f for f in NEEDED if not os.path.exists(P(f))]
+    if missing:
+        sys.exit("cannot run the paired analysis here: " + ", ".join(missing) +
+                 " are not in this repository (.gitignore keeps generations*.jsonl and scored*/ out).\n"
+                 "Regenerate them with scripts/run_gen_run2b.sh and scripts/make_results_run2.py, or read\n"
+                 "the analysis this script produced in results/RESULTS_run2.md. The pre-registration hashes\n"
+                 "above were checked and still match, which is the part that has to hold without the data.")
+    with open(P("generations_run2b.jsonl")) as fh:
+        gens = [json.loads(l) for l in fh if l.strip()]
     n_done = len(gens)
     if n_done == 0: sys.exit("no run-2b generations yet")
     if not os.path.exists(P("scored_run2b", "metrics.json")):
         subprocess.run([sys.executable, P("score_ifeval.py"), "--responses", P("generations_run2b.jsonl"),
                         "--out_dir", P("scored_run2b"), "--restrict"], check=True)
-    m2b = json.load(open(P("scored_run2b", "metrics.json")))
-    r1 = {json.loads(l)["prompt"]: all(json.loads(l)["follow_instruction_list"])
-          for l in open(P("scored", "eval_results_strict.jsonl"))}
-    r2 = {json.loads(l)["prompt"]: all(json.loads(l)["follow_instruction_list"])
-          for l in open(P("scored_run2b", "eval_results_strict.jsonl"))}
+    with open(P("scored_run2b", "metrics.json")) as fh:
+        m2b = json.load(fh)
+    def strict_pass(path):
+        with open(P(*path)) as fh:
+            return {json.loads(l)["prompt"]: all(json.loads(l)["follow_instruction_list"]) for l in fh}
+    r1 = strict_pass(("scored", "eval_results_strict.jsonl"))
+    r2 = strict_pass(("scored_run2b", "eval_results_strict.jsonl"))
     closed = {g["prompt"]: g["think_closed"] for g in gens}
     out = {}
     for label, keep in [("included", lambda p: True), ("excluded_unclosed", lambda p: closed[p])]:
@@ -85,7 +106,8 @@ def main():
                       f"Paired test has adequate n ({v['n_pairs']} pairs). McNemar exact p={v['mcnemar_exact_p']:.4f}. "
                       f"Note this tests run 2b vs run 1 (joint effect of thinking mode AND decoding), not against 94.8; "
                       f"the card's number is reached only if the CI reaches it (CI upper = {100*v['run2b_ci95'][1]:.1f}).")
-    json.dump(res, open(P("run2b_analysis.json"), "w"), indent=1)
+    with open(P("run2b_analysis.json"), "w") as fh:
+        json.dump(res, fh, indent=1)
     print(json.dumps(res, indent=1))
 
 if __name__ == "__main__":

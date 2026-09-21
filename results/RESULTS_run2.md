@@ -1,6 +1,9 @@
 # IFEval — Agents-A1-4B: three arms measured on this machine
 
-All numbers first-hand, on disk, re-runnable. Pre-registrations (unchanged, hashes verified by the analysis script):
+All numbers first-hand. The five scores are re-derived from `metrics_*.json` on every push; the rest --
+closure rates, median token counts, the paired test -- come from the generation files, which `.gitignore`
+keeps out of the repository, so they are recorded here and cross-checked against the README rather than
+recomputed. Pre-registrations (unchanged, hashes verified by `analyze_run2b.py`, which CI runs):
 `PREREG_run2.md` `a7b616ee…`, `PREREG_run2b.md` `326455ea…`, `PREREG_run2b_analysis.md` `db2b189a…`.
 
 ## The three arms
@@ -58,10 +61,13 @@ from batch-1 token counts before any run-2 score existed.
 
 ## Cost and what stopped the runs
 
-Run 2b: n/a new tokens at ~nan tok/s, peak torch memory nan GB
-(max observed `nvidia-smi` 18257 MiB, under the 20 GB cap), 4 batches of 8 in ~2h35m on one RTX 4090 (GPU 1 only).
-The pre-registered 3-hour cap from the original 12:38 launch expired at **15:38 and stopped generation by PID**
-with 32 of 80 prompts done; completed rows were preserved. Decoding 16384 tokens is sequential, so a larger
+Run 2b: 4 batches of 8 in ~2h35m on one RTX 4090 (GPU 1 only), max observed `nvidia-smi` 18257 MiB,
+under the 20 GB cap. The new-token total, aggregate throughput and `torch.cuda.max_memory_allocated`
+are not reported for this arm. `gen_ifeval_run2.py` writes them on its `DONE` line after the generation
+loop returns, and the run never reached it: the pre-registered 3-hour cap from the 12:38 launch expired
+at **15:38 and stopped generation by PID** with 32 of 80 prompts done, completed rows preserved. (The
+per-batch log line carries running values, but `gen_run2b.log` is not in the repository.) Run 1's
+equivalents, from a run that finished, are in `RESULTS.md`. Decoding 16384 tokens is sequential, so a larger
 batch was the only speed-up available and it would have breached the memory cap.
 
 ## What all of this can and cannot settle

@@ -35,8 +35,27 @@ jobs:
       # The README quotes five scores. They live in results/metrics_*.json, and a
       # capped run's percentage has to carry its own denominator: 87.5% once sat
       # beside "a subsample of 80 prompts" when it was 28 of 32.
-      - name: every score quoted in the README matches the committed metrics
+      - name: every number quoted in the README matches its source
         run: python scripts/check_readme_numbers.py
+
+      # The README says the analysis script refuses to run if a pre-registration
+      # changed. That was true of the copy on the machine that ran it, but the
+      # committed script looked for the files next to itself in scripts/ rather
+      # than in prereg/, so from a clone it died on the path before it ever
+      # reached a hash. Both halves are exercised here: unmodified, it must clear
+      # the hashes and then say plainly that the generations are not in the
+      # repository; tampered with, it must abort on the hash instead.
+      - name: the pre-registration hash guard runs, and aborts when tampered with
+        run: |
+          out=$(python scripts/analyze_run2b.py 2>&1) && { echo "expected a non-zero exit"; exit 1; }
+          echo "$out" | grep -q "cannot run the paired analysis here" || {
+            echo "::error::clean run did not reach the data check:"; echo "$out"; exit 1; }
+          printf '\ntampered\n' >> prereg/PREREG_run2b.md
+          out=$(python scripts/analyze_run2b.py 2>&1) && { echo "expected a non-zero exit"; exit 1; }
+          echo "$out" | grep -q "PREREG_run2b.md CHANGED" || {
+            echo "::error::a tampered pre-registration did not abort the script:"; echo "$out"; exit 1; }
+          git checkout -- prereg/PREREG_run2b.md
+          echo "hash guard holds in both directions"
 
       - name: the vendored scorer imports and its controls behave
         run: |
