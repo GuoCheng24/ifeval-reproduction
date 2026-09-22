@@ -25,7 +25,7 @@ not supported. Arm 3d is the missing control.
 
 Byte-identical invocation to arm 3c — same script, same 541 prompts, same
 `--batch-size 24 --max-new-tokens 1280 --seed 0 --enable-thinking 0`, same
-scorer — run a second time on **gpu-node-d**, on a different idle L40 of the same
+scorer — run a second time on **gpu-03**, on a different idle L40 of the same
 model. Nothing else changes.
 
 ## Pre-stated interpretation, committed before the result exists

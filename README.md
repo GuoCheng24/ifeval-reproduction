@@ -23,11 +23,13 @@ Complete run: all 541 prompts, 45.7 min, 74.2 tok/s, peak 11.4 GB. Greedy, bf16,
 sampling at T=0.85 with thinking on. That difference is the whole reason for arms two and three.
 
 
-> **On machine names.** Scripts and result files in this repository use neutral
-> labels (`machine-a`, `machine-b`, …) in place of local cluster hostnames. The
-> pre-registrations under `prereg/` still carry the original names: a sealed
-> pre-registration is not edited after the fact, not even to tidy it, because
-> the seal is the only thing that makes it worth anything.
+> **On machine names.** Everything here uses neutral labels (`machine-a`,
+> `gpu-03`, …) in place of local cluster hostnames. The pre-registrations were
+> sealed before that decision was made, so removing the name from them is a
+> **redaction**, not a tidy-up, and it is recorded as one:
+> [`prereg/REDACTION.md`](prereg/REDACTION.md) gives the hash each was sealed
+> under, the hash now, and a byte count showing the change is exactly a
+> same-length substitution of one token and nothing else.
 
 ## The part worth reading: an analysis that killed my own result
 

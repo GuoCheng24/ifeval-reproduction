@@ -1,4 +1,4 @@
-# Pre-registration — run 3 (gpu-node-d L40, full n=80, batch-composition arm, thinking-OFF pairing)
+# Pre-registration — run 3 (gpu-03 L40, full n=80, batch-composition arm, thinking-OFF pairing)
 
 Written **2026-09-22 23:59 (Asia/Shanghai)**, BEFORE any run-3 generation has been started. The generation
 commands in `scripts/run_gen_run3*.sh` are committed in the same commit as this file and had not been
@@ -13,7 +13,7 @@ required at least 50 completed pairs. That verdict stands and is not being revis
 Two things have changed since:
 
 1. **Hardware.** Runs 1, 2 and 2b were done on one contended RTX 4090 (24 GB, shared with other users'
-   jobs) under a self-imposed 20 GB memory cap. A second cluster node, `gpu-node-d`, carries **4 idle NVIDIA
+   jobs) under a self-imposed 20 GB memory cap. A second cluster node, `gpu-03`, carries **4 idle NVIDIA
    L40s with 46 GB each**. The memory cap and the time cap that produced the partial arm are artefacts of
    the machine that was available that day, not of the measurement.
 2. **The raw generations of runs 1, 2 and 2b were not preserved.** `generations*.jsonl` is in
@@ -50,7 +50,7 @@ is pre-registered here with its own threshold before any of it is generated.
 
 ## What changes, and it is only the machine
 
-- **Hardware**: `gpu-node-d`, one NVIDIA L40 (46 GB) per arm, arms on separate GPUs, no other job on those
+- **Hardware**: `gpu-03`, one NVIDIA L40 (46 GB) per arm, arms on separate GPUs, no other job on those
   GPUs at launch. GPU 3 is deliberately left free for other users of the shared node.
 - **No memory cap and no time cap.** Every arm runs until all of its prompts are done. Batch size is set
   from the measured KV cost and recorded, exactly as `PREREG_run2b.md` already allowed ("Batch size is not
@@ -61,9 +61,9 @@ is pre-registered here with its own threshold before any of it is generated.
 
 | arm | thinking | prompts | budget | decoding | batch size | GPU |
 |---|---|---|---|---|---|---|
-| **3a** primary | ON | the 80 pre-registered keys | 16384 | card sampling, seed 0 | **16** | gpu-node-d:0 |
-| **3b** batch-composition | ON | the same 80 keys | 16384 | card sampling, seed 0 | **8** | gpu-node-d:1 |
-| **3c** thinking-OFF pairing | OFF | all 541 | 1280 | greedy | 24 (as run 1) | gpu-node-d:2 |
+| **3a** primary | ON | the 80 pre-registered keys | 16384 | card sampling, seed 0 | **16** | gpu-03:0 |
+| **3b** batch-composition | ON | the same 80 keys | 16384 | card sampling, seed 0 | **8** | gpu-03:1 |
+| **3c** thinking-OFF pairing | OFF | all 541 | 1280 | greedy | 24 (as run 1) | gpu-03:2 |
 
 If 46 GB cannot hold batch size 16 at a 16384-token budget, **both** 3a and 3b are halved together
 (16/8 → 8/4) so that the 2× ratio between them is preserved, and the actual values are recorded. No other

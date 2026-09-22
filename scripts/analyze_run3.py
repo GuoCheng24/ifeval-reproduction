@@ -25,7 +25,11 @@ from stats import clopper_pearson, mcnemar_exact  # noqa: E402
 P = lambda *a: os.path.join(ROOT, *a)
 CARD = 94.8
 
-for name, prefix in [("PREREG_run3.md", "f414c8665a2d5a6c")]:
+# The pre-registration was redacted after publication to remove a machine name -
+# a six-character in-place substitution, recorded byte for byte in
+# prereg/REDACTION.md along with the hash it was originally sealed under. This
+# asserts the post-redaction hash; the original is in that file.
+for name, prefix in [("PREREG_run3.md", "56a2b22e39b7741d")]:
     with open(P("prereg", name), "rb") as fh:
         h = hashlib.sha256(fh.read()).hexdigest()
     assert h.startswith(prefix), f"{name} CHANGED: {h}"
