@@ -22,6 +22,13 @@ Complete run: all 541 prompts, 45.7 min, 74.2 tok/s, peak 11.4 GB. Greedy, bf16,
 `max_new_tokens=1280`, plain `transformers` — **not** the card's own recommendation, which is
 sampling at T=0.85 with thinking on. That difference is the whole reason for arms two and three.
 
+
+> **On machine names.** Scripts and result files in this repository use neutral
+> labels (`machine-a`, `machine-b`, …) in place of local cluster hostnames. The
+> pre-registrations under `prereg/` still carry the original names: a sealed
+> pre-registration is not edited after the fact, not even to tidy it, because
+> the seal is the only thing that makes it worth anything.
+
 ## The part worth reading: an analysis that killed my own result
 
 Arm 3 re-ran a random subsample of 80 prompts under the card's sampling settings with a 16384-token

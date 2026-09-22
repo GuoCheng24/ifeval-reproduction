@@ -1,9 +1,43 @@
 {
  "arms_scored": [
+  "3a",
+  "3b",
   "3c",
   "3d"
  ],
  "card_claim": 94.8,
+ "run3a": {
+  "n_prompts": 80,
+  "n_correct": 69,
+  "prompt_level_strict_acc": 0.8625,
+  "prompt_level_loose_acc": 0.9,
+  "instruction_level_strict_acc": 0.9105691056910569,
+  "instruction_level_loose_acc": 0.9349593495934959,
+  "ci95_prompt_level_strict": [
+   0.7672791291752743,
+   0.9293121672961213
+  ],
+  "ci_excludes_card": true,
+  "median_new_tokens": 4338.5,
+  "max_new_tokens": 16384,
+  "unclosed_think": 7
+ },
+ "run3b": {
+  "n_prompts": 80,
+  "n_correct": 72,
+  "prompt_level_strict_acc": 0.9,
+  "prompt_level_loose_acc": 0.925,
+  "instruction_level_strict_acc": 0.9105691056910569,
+  "instruction_level_loose_acc": 0.926829268292683,
+  "ci95_prompt_level_strict": [
+   0.8124348925365683,
+   0.955829059846371
+  ],
+  "ci_excludes_card": false,
+  "median_new_tokens": 4345.0,
+  "max_new_tokens": 16384,
+  "unclosed_think": 5
+ },
  "run3c": {
   "n_prompts": 541,
   "n_correct": 408,
@@ -35,6 +69,53 @@
   "median_new_tokens": 243,
   "max_new_tokens": 1280,
   "unclosed_think": 0
+ },
+ "PAIRED thinking ON (3a) vs OFF (3c), same 80 keys": {
+  "n_pairs": 80,
+  "b": 8,
+  "c": 4,
+  "mcnemar_exact_p": 0.3876953125,
+  "first": {
+   "n_correct": 69,
+   "acc": 0.8625,
+   "ci": [
+    0.7672791291752743,
+    0.9293121672961213
+   ]
+  },
+  "second": {
+   "n_correct": 65,
+   "acc": 0.8125,
+   "ci": [
+    0.7096721043523087,
+    0.8910863118524706
+   ]
+  },
+  "points_difference": 5.0
+ },
+ "BATCH 16 (3a) vs batch 8 (3b), everything else identical": {
+  "n_pairs": 80,
+  "b": 4,
+  "c": 7,
+  "mcnemar_exact_p": 0.548828125,
+  "first": {
+   "n_correct": 69,
+   "acc": 0.8625,
+   "ci": [
+    0.7672791291752743,
+    0.9293121672961213
+   ]
+  },
+  "second": {
+   "n_correct": 72,
+   "acc": 0.9,
+   "ci": [
+    0.8124348925365683,
+    0.955829059846371
+   ]
+  },
+  "points_difference": -3.75,
+  "byte_identical_responses": 1
  },
  "DETERMINISM 3c vs 3d, same machine, same settings, greedy": {
   "n_pairs": 541,

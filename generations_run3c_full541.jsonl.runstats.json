@@ -1,0 +1,20 @@
+{
+ "n": 541,
+ "new_tokens": 211690,
+ "wall_s": 1481.7134356498718,
+ "tok_per_s": 142.8683812313235,
+ "peak_mem_GB": 11.43332052230835,
+ "gpu": "2",
+ "settings": {
+  "do_sample": false,
+  "max_new_tokens": 1280,
+  "dtype": "bfloat16",
+  "seed": 0,
+  "enable_thinking": false,
+  "system": "template_default",
+  "batch_size": 24,
+  "snapshot": "945c40a4aa6f534d434a353207b8d42ecf7a5293",
+  "decoding": "greedy"
+ },
+ "gpu_name": "NVIDIA L40"
+}

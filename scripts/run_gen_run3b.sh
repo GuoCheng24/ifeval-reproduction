@@ -1,7 +1,7 @@
 #!/bin/bash
 # Run 3b (PREREG_run3.md): thinking ON, card sampling, the 80 pre-registered keys, 16384-token budget.
 # Arms 3a and 3b are identical except for batch size (16 vs 8) - that is the manipulated variable.
-# gpu-node-d, one L40, no memory cap and no time cap. Resume-safe by key.
+# machine-b, one L40, no memory cap and no time cap. Resume-safe by key.
 cd "$(dirname "$0")/.."
 export CUDA_VISIBLE_DEVICES=1 HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 V=$VENV   # a1eval: torch 2.10.0+cu128, transformers 5.16.1, nltk 3.8.1 (see results/env.txt)

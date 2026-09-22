@@ -1,0 +1,27 @@
+{
+ "n": 80,
+ "new_tokens": 403497,
+ "wall_s": 6219.006695508957,
+ "tok_per_s": 64.88126155120311,
+ "peak_mem_GB": 15.006780624389648,
+ "gpu": "1",
+ "settings": {
+  "do_sample": true,
+  "temperature": 0.85,
+  "top_p": 0.95,
+  "top_k": 20,
+  "presence_penalty": 1.1,
+  "presence_penalty_impl": "custom LogitsProcessor, vLLM semantics (additive, generated tokens only)",
+  "repetition_penalty": 1.0,
+  "max_new_tokens": 16384,
+  "dtype": "bfloat16",
+  "seed": 0,
+  "enable_thinking": true,
+  "system": "template_default",
+  "batch_size": 8,
+  "backend": "transformers generate()",
+  "snapshot": "945c40a4aa6f534d434a353207b8d42ecf7a5293",
+  "prereg": "PREREG_run2.md"
+ },
+ "gpu_name": "NVIDIA L40"
+}

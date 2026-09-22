@@ -168,7 +168,7 @@ def main():
                 for k in sorted(m3["strict"]["per_category_instruction_acc"])
                 if k in r1["strict"]["per_category_instruction_acc"]},
         }
-        print("\n── HARDWARE run 1 (RTX 4090, gpu-node-c) vs run 3c (L40, gpu-node-d), aggregate only")
+        print("\n── HARDWARE run 1 (RTX 4090, machine-a) vs run 3c (L40, machine-b), aggregate only")
         for field, a, b, d in rows:
             verdict = ""
             if noise:
