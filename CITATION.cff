@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If this was useful in your work, please cite it."
+title: "Reproducing a published IFEval score on one shared GPU: three arms, a pre-registration chain, and a paired test"
+abstract: "A first-hand reproduction of the IFEval score published for Agents-A1-4B on a single RTX 4090. Prompt-level strict accuracy is 76.9 over all 541 prompts under a fully stated deterministic setting, against a model-card value of 94.8 whose metric variant, decoding and thinking budget are unstated. A thinking-mode arm scored 87.5 on a cost-capped subsample of 32 prompts, which looks like an eleven-point gain until the pre-registered paired test shows the first arm scores 87.5 on those same prompts. Also reported: the official scorer is not deterministic, and batched bf16 decoding is not bit-exact across batch compositions."
+type: software
+authors:
+  - family-names: Cheng
+    given-names: Guo
+    affiliation: "Hangzhou Institute of Medicine, Chinese Academy of Sciences, Hangzhou, China; Hangzhou Institute for Advanced Study, University of Chinese Academy of Sciences, Hangzhou, China"
+    orcid: "https://orcid.org/0009-0006-7813-0114"
+repository-code: "https://github.com/GuoCheng24/ifeval-reproduction"
+license: MIT
+version: 1.0.0
+date-released: 2026-09-15
+keywords:
+  - evaluation
+  - instruction following
+  - IFEval
+  - reproducibility
+  - pre-registration
+  - paired analysis
