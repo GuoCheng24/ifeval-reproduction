@@ -1,0 +1,52 @@
+{
+ "responses": "generations_run3c_full541.jsonl",
+ "n_scorings": 10,
+ "metrics": {
+  "prompt_level_strict_acc": {
+   "min": 75.23105360443623,
+   "max": 75.6007393715342,
+   "spread_points": 0.36968576709797674,
+   "distinct_values": [
+    75.2311,
+    75.4159,
+    75.6007
+   ]
+  },
+  "prompt_level_loose_acc": {
+   "min": 78.74306839186691,
+   "max": 79.11275415896488,
+   "spread_points": 0.3696857670979625,
+   "distinct_values": [
+    78.7431,
+    78.9279,
+    79.1128
+   ]
+  },
+  "instruction_level_strict_acc": {
+   "min": 82.9736211031175,
+   "max": 83.33333333333334,
+   "spread_points": 0.3597122302158482,
+   "distinct_values": [
+    82.9736,
+    83.0935,
+    83.2134,
+    83.3333
+   ]
+  },
+  "instruction_level_loose_acc": {
+   "min": 85.61151079136691,
+   "max": 85.85131894484412,
+   "spread_points": 0.23980815347721318,
+   "distinct_values": [
+    85.6115,
+    85.7314,
+    85.8513
+   ]
+  }
+ },
+ "prompts_whose_outcome_is_not_stable": [
+  "1129",
+  "3130"
+ ],
+ "n_prompts": 541
+}

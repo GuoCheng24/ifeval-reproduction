@@ -1,0 +1,195 @@
+{
+ "arms_scored": [
+  "3c",
+  "3d"
+ ],
+ "card_claim": 94.8,
+ "run3c": {
+  "n_prompts": 541,
+  "n_correct": 408,
+  "prompt_level_strict_acc": 0.7541589648798521,
+  "prompt_level_loose_acc": 0.7911275415896488,
+  "instruction_level_strict_acc": 0.8309352517985612,
+  "instruction_level_loose_acc": 0.8585131894484412,
+  "ci95_prompt_level_strict": [
+   0.7156209877334487,
+   0.7898944442105802
+  ],
+  "ci_excludes_card": true,
+  "median_new_tokens": 243,
+  "max_new_tokens": 1280,
+  "unclosed_think": 0
+ },
+ "run3d": {
+  "n_prompts": 541,
+  "n_correct": 408,
+  "prompt_level_strict_acc": 0.7541589648798521,
+  "prompt_level_loose_acc": 0.7911275415896488,
+  "instruction_level_strict_acc": 0.8321342925659473,
+  "instruction_level_loose_acc": 0.8585131894484412,
+  "ci95_prompt_level_strict": [
+   0.7156209877334487,
+   0.7898944442105802
+  ],
+  "ci_excludes_card": true,
+  "median_new_tokens": 243,
+  "max_new_tokens": 1280,
+  "unclosed_think": 0
+ },
+ "DETERMINISM 3c vs 3d, same machine, same settings, greedy": {
+  "n_pairs": 541,
+  "b": 0,
+  "c": 0,
+  "mcnemar_exact_p": 1.0,
+  "first": {
+   "n_correct": 408,
+   "acc": 0.7541589648798521,
+   "ci": [
+    0.7156209877334487,
+    0.7898944442105802
+   ]
+  },
+  "second": {
+   "n_correct": 408,
+   "acc": 0.7541589648798521,
+   "ci": [
+    0.7156209877334487,
+    0.7898944442105802
+   ]
+  },
+  "points_difference": 0.0,
+  "byte_identical_responses": 541
+ },
+ "scorer_noise": {
+  "responses": "generations_run3c_full541.jsonl",
+  "n_scorings": 10,
+  "metrics": {
+   "prompt_level_strict_acc": {
+    "min": 75.23105360443623,
+    "max": 75.6007393715342,
+    "spread_points": 0.36968576709797674,
+    "distinct_values": [
+     75.2311,
+     75.4159,
+     75.6007
+    ]
+   },
+   "prompt_level_loose_acc": {
+    "min": 78.74306839186691,
+    "max": 79.11275415896488,
+    "spread_points": 0.3696857670979625,
+    "distinct_values": [
+     78.7431,
+     78.9279,
+     79.1128
+    ]
+   },
+   "instruction_level_strict_acc": {
+    "min": 82.9736211031175,
+    "max": 83.33333333333334,
+    "spread_points": 0.3597122302158482,
+    "distinct_values": [
+     82.9736,
+     83.0935,
+     83.2134,
+     83.3333
+    ]
+   },
+   "instruction_level_loose_acc": {
+    "min": 85.61151079136691,
+    "max": 85.85131894484412,
+    "spread_points": 0.23980815347721318,
+    "distinct_values": [
+     85.6115,
+     85.7314,
+     85.8513
+    ]
+   }
+  },
+  "prompts_whose_outcome_is_not_stable": [
+   "1129",
+   "3130"
+  ],
+  "n_prompts": 541
+ },
+ "HARDWARE run 1 (RTX 4090) vs 3c (L40), aggregate only": {
+  "note": "run 1's per-prompt record was not preserved; only aggregates can be compared",
+  "metrics": {
+   "prompt_level_strict_acc": {
+    "run1": 0.7689463955637708,
+    "run3c": 0.7541589648798521,
+    "points": -1.4787430683918634,
+    "scorer_spread_points": 0.36968576709797674,
+    "exceeds_scorer_noise": true
+   },
+   "prompt_level_loose_acc": {
+    "run1": 0.8040665434380776,
+    "run3c": 0.7911275415896488,
+    "points": -1.2939001848428777,
+    "scorer_spread_points": 0.3696857670979625,
+    "exceeds_scorer_noise": true
+   },
+   "instruction_level_strict_acc": {
+    "run1": 0.8357314148681055,
+    "run3c": 0.8309352517985612,
+    "points": -0.47961630695443347,
+    "scorer_spread_points": 0.3597122302158482,
+    "exceeds_scorer_noise": true
+   },
+   "instruction_level_loose_acc": {
+    "run1": 0.8621103117505995,
+    "run3c": 0.8585131894484412,
+    "points": -0.3597122302158251,
+    "scorer_spread_points": 0.23980815347721318,
+    "exceeds_scorer_noise": true
+   }
+  },
+  "per_category_strict": {
+   "change_case": {
+    "run1": 0.7752808988764045,
+    "run3c": 0.7303370786516854,
+    "points": -4.49438202247191
+   },
+   "combination": {
+    "run1": 0.8615384615384616,
+    "run3c": 0.8461538461538461,
+    "points": -1.538461538461544
+   },
+   "detectable_content": {
+    "run1": 0.8867924528301887,
+    "run3c": 0.9056603773584906,
+    "points": 1.8867924528301883
+   },
+   "detectable_format": {
+    "run1": 0.9426751592356688,
+    "run3c": 0.9363057324840764,
+    "points": -0.6369426751592355
+   },
+   "keywords": {
+    "run1": 0.7668711656441718,
+    "run3c": 0.7668711656441718,
+    "points": 0.0
+   },
+   "language": {
+    "run1": 0.967741935483871,
+    "run3c": 0.967741935483871,
+    "points": 0.0
+   },
+   "length_constraints": {
+    "run1": 0.7482517482517482,
+    "run3c": 0.7692307692307693,
+    "points": 2.0979020979021046
+   },
+   "punctuation": {
+    "run1": 0.7878787878787878,
+    "run3c": 0.7727272727272727,
+    "points": -1.5151515151515138
+   },
+   "startend": {
+    "run1": 0.9402985074626866,
+    "run3c": 0.9253731343283582,
+    "points": -1.4925373134328401
+   }
+  }
+ }
+}
