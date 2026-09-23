@@ -33,7 +33,7 @@ LO, HI = 72.0, 99.0
 def chart(ax, accent):
     from matplotlib.patches import Rectangle
 
-    x0, x1 = 3.95, 10.30
+    x0, x1 = 4.62, 10.10
     def X(v):
         return x0 + (x1 - x0) * (v - LO) / (HI - LO)
 
@@ -49,8 +49,11 @@ def chart(ax, accent):
         ax.plot([X(lo), X(hi)], [y, y], color=colour, lw=7, solid_capstyle="round", zorder=3)
         ax.add_patch(Rectangle((X(acc) - 0.035, y - 0.21), 0.07, 0.42,
                                fc=INK, ec="none", zorder=4))
+        # The value goes to the LEFT of the interval, not the right: on the right
+        # it collides with the threshold line, which is the whole subject of the
+        # card. Found by the rule check once it learned about vertical rules.
         ax.text(0.78, y, name, fontsize=34, color=INK, family=SANS, va="center")
-        ax.text(X(hi) + 0.20, y, f"{acc:.1f}", fontsize=34, fontweight="bold",
+        ax.text(3.00, y, f"{acc:.1f}", fontsize=34, fontweight="bold",
                 color=colour, family=SANS, va="center")
 
     ax.text(0.78, 1.00,
