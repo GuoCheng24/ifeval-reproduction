@@ -1,15 +1,46 @@
-# Reproducing IFEval on a 4B agent model, on one shared GPU
+# Reproducing IFEval on a 4B agent model — and what the generation batch size does to the answer
 
 [![test](https://github.com/GuoCheng24/ifeval-reproduction/actions/workflows/check.yml/badge.svg)](https://github.com/GuoCheng24/ifeval-reproduction/actions/workflows/check.yml)
 
 A first-hand reproduction of the IFEval score published for
-[InternScience/Agents-A1-4B](https://huggingface.co/InternScience/Agents-A1-4B), run on a single
-RTX 4090 shared with other users. Three arms, a pre-registration written before any score existed,
-and a paired analysis that killed one of my own conclusions.
+[InternScience/Agents-A1-4B](https://huggingface.co/InternScience/Agents-A1-4B), with a
+pre-registration chain CI re-hashes on every push.
 
-**The short version: I could not reproduce the published figure under the settings I could afford,
-and I did not refute it either.** Both halves of that sentence matter, and the evidence for each is
-in this repository.
+**The finding: two arms that differ only in how many sequences share a forward pass land on
+opposite sides of the model card's number, while being statistically indistinguishable from each
+other.**
+
+| arm | generation batch | prompt-level strict, n=80 | 95% CI | against the card's 94.8 |
+|---|---|---|---|---|
+| **3a** | 16 | **86.25%** (69/80) | [76.73, 92.93] | **excludes it** |
+| **3b** | 8 | **90.00%** (72/80) | [81.24, 95.58] | **contains it** |
+
+Paired on the same 80 prompts: discordant b = 4, c = 7, exact two-sided McNemar **p = 0.549**. The
+3.75-point difference is well inside sampling noise; the verdict flips anyway, because the
+pre-registered threshold is a confidence-interval boundary and the two intervals straddle it. Only
+**1 of 80** responses is byte-identical between the arms.
+
+Batch size is not a setting the model card states, the benchmark defines, or a leaderboard reports.
+It is chosen from whatever memory is free. **Report it, and report more than one arm when a verdict
+rests on an interval boundary.**
+
+Full write-up: [`results/RESULTS_run3.md`](results/RESULTS_run3.md).
+
+### Three controls that make that readable
+
+- **Generation on one machine is bit-exact.** The same 541 prompts, greedy, same batch size and
+  seed, on two cards of the same model: **541 of 541 responses byte-identical**, zero discordant.
+  So the batch effect is not run-to-run nondeterminism.
+- **The scorer moves on a file that never changes.** Ten scorings of one unchanged file span
+  **0.370 points** on prompt-level strict; exactly **2 of 541** prompts are unstable, and one of
+  them is inside the 80-prompt subsample, where a single flipped prompt is worth **1.25 points**.
+  Three scorings had said it was stable.
+- **Changing only the accelerator moves the score.** Same weights, checksum, decoding, batch size,
+  seed and scorer on two different cards: prompt-level strict **76.89% → 75.42%**, a **−1.48**-point
+  difference that is **4.0×** the scorer's own spread. The two instruction-level differences are
+  1.3× and 1.5× and do not carry weight.
+
+### The full-set measurement
 
 | metric | measured here | model card |
 |---|---|---|
@@ -18,20 +49,23 @@ in this repository.
 | instruction-level strict | 83.6 (697/834) | |
 | instruction-level loose | 86.2 (719/834) | |
 
-Complete run: all 541 prompts, 45.7 min, 74.2 tok/s, peak 11.4 GB. Greedy, bf16, thinking off,
-`max_new_tokens=1280`, plain `transformers` — **not** the card's own recommendation, which is
-sampling at T=0.85 with thinking on. That difference is the whole reason for arms two and three.
+Greedy, bf16, thinking off, `max_new_tokens=1280`, plain `transformers` — **not** the card's own
+recommendation, which is sampling at T=0.85 with thinking on. That difference is the reason for
+every later arm.
+
+**Thinking on versus off, at the pre-registered size:** 86.25% against 81.25% on the same 80
+prompts, discordant b = 8, c = 4, exact two-sided McNemar **p = 0.388**. Run 2b had 32 pairs and was
+labelled UNDERPOWERED by its own analysis pre-registration, which requires 50; run 3 has 80, so the
+test is interpretable and it does not separate the arms.
 
 
-> **On machine names.** Everything here uses neutral labels (`machine-a`,
-> `gpu-03`, …) in place of local cluster hostnames. The pre-registrations were
-> sealed before that decision was made, so removing the name from them is a
+> **On machine names.** Everything here uses neutral labels in place of local cluster hostnames.
+> The pre-registrations were sealed before that decision, so removing the name from them is a
 > **redaction**, not a tidy-up, and it is recorded as one:
-> [`prereg/REDACTION.md`](prereg/REDACTION.md) gives the hash each was sealed
-> under, the hash now, and a byte count showing the change is exactly a
-> same-length substitution of one token and nothing else.
+> [`prereg/REDACTION.md`](prereg/REDACTION.md) gives the hash each was sealed under, the hash now,
+> and a byte count showing the change is exactly a same-length substitution of one token.
 
-## The part worth reading: an analysis that killed my own result
+## Earlier arms, and an analysis that killed my own result
 
 Arm 3 re-ran a random subsample of 80 prompts under the card's sampling settings with a 16384-token
 thinking budget. A cost cap stopped it after **32** of those 80, so its **87.5%** is 28 of 32

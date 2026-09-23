@@ -94,6 +94,88 @@ for name, in_readme, in_results in AGREEING:
     if not ok_s:
         bad.append(f"{name}: results/RESULTS_run2.md no longer says {in_results!r}")
 
+# ---------------------------------------------------------------- run 3
+# Every run-3 figure on the page is recomputed from results/metrics_run3.json
+# rather than compared against a string, because the page's headline is now a
+# comparison whose whole point is that two numbers straddle a threshold - and a
+# threshold claim that drifts from its interval is the defect this file exists
+# for.
+m3_path = ROOT / "results/metrics_run3.json"
+if m3_path.exists():
+    m3 = json.loads(m3_path.read_text(encoding="utf-8"))
+
+    def pct(x):
+        return f"{100 * x:.2f}"
+
+    for arm in ("3a", "3b", "3c", "3d"):
+        a = m3.get(f"run{arm}")
+        if not a:
+            continue
+        acc = f"{100 * a['prompt_level_strict_acc']:.2f}%"
+        lo, hi = (f"{100 * v:.2f}" for v in a["ci95_prompt_level_strict"])
+        counts = f"({a['n_correct']}/{a['n_prompts']})"
+        if arm in ("3a", "3b"):
+            for token, what in ((acc, "accuracy"), (counts, "counts"),
+                                (f"[{lo}, {hi}]", "interval")):
+                ok = token in readme
+                print(f"  run {arm} {what:<28} {'ok' if ok else 'NOT ON PAGE'}")
+                if not ok:
+                    bad.append(f"run {arm}: the README does not say {token}")
+            # the claim the page makes about the card number must follow from the interval
+            excludes = a["ci_excludes_card"]
+            says_excludes = f"| **{acc}** {counts} | [{lo}, {hi}] | **excludes it**" in readme
+            says_contains = f"| **{acc}** {counts} | [{lo}, {hi}] | **contains it**" in readme
+            if says_excludes and not excludes:
+                bad.append(f"run {arm}: the page says its interval excludes {m3['card_claim']}, "
+                           f"but [{lo}, {hi}] contains it")
+            if says_contains and excludes:
+                bad.append(f"run {arm}: the page says its interval contains {m3['card_claim']}, "
+                           f"but [{lo}, {hi}] excludes it")
+            if not (says_excludes or says_contains):
+                bad.append(f"run {arm}: the page states no verdict against the card number")
+            print(f"  run {arm} verdict vs the card        "
+                  f"{'ok' if (says_excludes or says_contains) else 'NOT ON PAGE'}")
+
+    batch = m3.get("BATCH 16 (3a) vs batch 8 (3b), everything else identical")
+    if batch:
+        for token, what in ((f"b = {batch['b']}, c = {batch['c']}", "discordant counts"),
+                            (f"p = {batch['mcnemar_exact_p']:.3f}", "exact p"),
+                            (f"{abs(batch['points_difference']):.2f}-point", "difference"),
+                            (f"{batch['byte_identical_responses']} of {batch['n_pairs']}",
+                             "byte-identical responses")):
+            ok = token in readme
+            print(f"  batch arm {what:<28} {'ok' if ok else 'NOT ON PAGE'}")
+            if not ok:
+                bad.append(f"batch arm: the README does not say {token!r}")
+
+    det = m3.get("DETERMINISM 3c vs 3d, same machine, same settings, greedy")
+    if det:
+        token = f"{det['byte_identical_responses']} of {det['n_pairs']} responses byte-identical"
+        ok = token in readme
+        print(f"  determinism control                      {'ok' if ok else 'NOT ON PAGE'}")
+        if not ok:
+            bad.append(f"the determinism control's result {token!r} is not on the page")
+
+    noise = m3.get("scorer_noise")
+    if noise:
+        sp = noise["metrics"]["prompt_level_strict_acc"]["spread_points"]
+        n_unstable = len(noise["prompts_whose_outcome_is_not_stable"])
+        for token, what in ((f"{sp:.3f} points", "scorer spread"),
+                            (f"{n_unstable} of {noise['n_prompts']}", "unstable prompts")):
+            ok = token in readme
+            print(f"  {what:<40} {'ok' if ok else 'NOT ON PAGE'}")
+            if not ok:
+                bad.append(f"scorer noise: the README does not say {token!r}")
+
+    hw = m3.get("HARDWARE run 1 (RTX 4090) vs 3c (L40), aggregate only")
+    if hw:
+        d = hw["metrics"]["prompt_level_strict_acc"]
+        token = f"{d['points']:.2f}"
+        ok = token in readme or token.lstrip("-") in readme
+        print(f"  hardware difference                      {'ok' if ok else 'NOT ON PAGE'}")
+        if not ok:
+            bad.append(f"the hardware difference {token} is not on the page")
+
 # 4140 was the wrong median for two weeks. Make sure it cannot come back.
 for stale in ("4140",):
     if stale in readme or stale in results2:
