@@ -154,3 +154,12 @@ recommendation in ways the card does not specify. It is not an audit and it does
 word "inflated". If the maintainers publish their decoding settings and thinking budget, the gap may
 close entirely — and this repository is arranged so that re-running it under those settings is a
 single command.
+
+## Other things from the same desk
+
+- [batch-logprob-gap](https://github.com/GuoCheng24/batch-logprob-gap) — in low-precision training the same token gets a different log probability depending on its batch shape — measured, with what it does and does not do to GRPO
+- [taichu-eval-reproduction](https://github.com/GuoCheng24/taichu-eval-reproduction) — re-measuring two model-card numbers on the full benchmarks, where one verdict turns on how truncated generations are counted
+- [groundwork](https://github.com/GuoCheng24/groundwork) — a research pipeline for coding agents whose first stage can return NO-GO; on PyPI as `groundwork-research`
+
+More at [github.com/GuoCheng24](https://github.com/GuoCheng24).
+
